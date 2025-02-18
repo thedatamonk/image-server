@@ -9,20 +9,29 @@ const amqp = require('amqplib/callback_api');
 
 // set up storage for uploaded images
 // for now we are storing them locally in a folder
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const tempuploadsDir = path.join(__dirname, '../temp-uploads');
-        cb(null, tempuploadsDir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()} - ${file.originalname}`);
-    },
-});
+const createStorage = (directory) => {
+    return multer.diskStorage({
+        destination: (req, file, cb) => {
+            const uploadsDir = path.join(__dirname, directory);
+            cb(null, uploadsDir);
+        },
+        filename: (req, file, cb) => {
+            cb(null, `${Date.now()} - ${file.originalname}`);
+        },
+    });
+}
 
-const upload = multer({storage});
+// Create storage configurations
+const tempStorage = createStorage('../temp-uploads');
+const finalStorage = createStorage('../uploads');
+
+// Create multer upload instances
+const tempUpload = multer({ storage: tempStorage });
+const finalUpload = multer({ storage: finalStorage });
+
 
 // upload image endpoint
-router.post('/upload', upload.single('image'), async (req, res) => {
+router.post('/upload', finalUpload.single('image'), async (req, res) => {
     try {
 
         const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`;
@@ -41,7 +50,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
 // asynchronous upload
 // Note that the handler function for this endpoint is synchronous
 // As the sending of the image-upload event to the queue is synchronous
-router.post('/async-upload', upload.single('image'), (req, res) => {
+router.post('/async-upload', tempUpload.single('image'), (req, res) => {
     try {
         // create filepath of the image where it will be uploaded temporarily
         const filePath = path.join(__dirname, '../temp-uploads', req.file.filename);
