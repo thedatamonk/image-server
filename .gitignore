@@ -90,3 +90,6 @@ public/
 
 # MacOS files
 .DS_Store
+
+uploads
+temp-uploads
