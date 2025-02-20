@@ -4,6 +4,7 @@ const path = require('path');
 const Image = require('../models/Image');
 const router = express.Router()
 const amqp = require('amqplib/callback_api');
+const { log } = require('console');
 
 
 
@@ -34,6 +35,7 @@ const finalUpload = multer({ storage: finalStorage });
 router.post('/upload', finalUpload.single('image'), async (req, res) => {
     try {
 
+        console.log(`filepath: ${req.file.path}`);
         const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`;
         const newImage = new Image ({
             filename: req.file.filename,
@@ -41,7 +43,8 @@ router.post('/upload', finalUpload.single('image'), async (req, res) => {
         });
 
         await newImage.save(); // save image metadata in mongodb
-        res.status(201).json({url: imageUrl});
+        res.status(201).json({imageName: req.file.filename});
+        console.log(`Success.`);
     } catch (error) {
         res.status(500).json({message: 'Error uploading image', error});
     }
@@ -95,8 +98,11 @@ router.post('/async-upload', tempUpload.single('image'), (req, res) => {
 
 // get image endpoint
 router.get('/uploads/:filename', (req, res) => {
+
     const filePath = path.join(__dirname, '../uploads', req.params.filename);
+    console.log(`Inside GET => Loading image: ${filePath}`);
     res.sendFile(filePath);
+    console.log(`Image sent successfully.`)
 });
 
 module.exports = router;
