@@ -25,7 +25,8 @@ node server.js
 # run the imageUploadWorkers (consumer code is present here)
 node workers/imageUploadWorkers.js
 ```
-
+## Load testing
+1. We wil use artillery to perform load testing.
 
 ## Upcoming
 1. Load testing to test the limits of the system.
