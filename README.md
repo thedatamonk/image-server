@@ -27,9 +27,16 @@ node workers/imageUploadWorkers.js
 ```
 ## Load testing
 1. We wil use artillery to perform load testing.
+2. All the performance metrics are maintained and can be visualised in Artillery cloud.
 
+**Run load testing**
+- Create artillery-test.yaml in your project root folder.
+- Run the following command - 
+    ```
+    artillery run artillery-test.yaml --record --key <ENTER_API_KEY>
+    ```
 ## Upcoming
-1. Load testing to test the limits of the system.
+1. ~~Load testing to test the limits of the system.~~
 2. Bunny CDN integration to server images efficiently.
 3. Log metrics of the service and analyse them by visualising them with grafana.
 4. Simple UI to upload and render images using React and TailwindCSS.
