@@ -1,0 +1,17 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+scenarios:
+  - flow:
+      - post:
+          url: '/api/images/upload'
+          formData:
+            image:
+              fromFile: 'mansory-mercedes-maybach-s-680-4matic-mercedes-maybach-s-3840x2160-8450.jpeg'
+          capture:
+            - json: '$.imageName'
+              as: 'imageName'
+      - get:
+          url: '/api/images/uploads/{{ imageName }}'
