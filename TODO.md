@@ -21,13 +21,13 @@ Load balancer - rewrite and package the load balancer so that you can use it her
 
 **Services needed**
 
-1. upload service
+1. ~~upload service~~
     - from user device to the queue
-2. storing service
+2. ~~storing service~~
     - from the queue to the cloud storage
     - the storing service also stores the meta data about teh iamge besides just saivng the image
 
-3. processing service
+3. ~~processing service~~
     - it can happen in the background
 4. cdn service
     - not really sure if we need a service, but we definitely need to setup a CDN
