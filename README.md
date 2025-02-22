@@ -37,6 +37,7 @@ node workers/imageUploadWorkers.js
     ```
 ## Upcoming
 1. ~~Load testing to test the limits of the system.~~
+    - Study the metrics and see how the systems performs.
 2. Bunny CDN integration to server images efficiently.
 3. Log metrics of the service and analyse them by visualising them with grafana.
 4. Simple UI to upload and render images using React and TailwindCSS.
